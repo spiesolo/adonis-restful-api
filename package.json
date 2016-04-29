@@ -1,0 +1,24 @@
+{
+  "name": "adonis-resetful-api",
+  "version": "0.0.1",
+  "description": "General model-agnostic RESTful API controller for AdonisJS 3.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tremendus/adonis-restful-api.git"
+  },
+  "keywords": [
+    "adonisjs",
+    "restful",
+    "api"
+  ],
+  "author": "Darren Carter <darren@tremendusapps.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/tremendus/adonis-restful-api/issues"
+  },
+  "homepage": "https://github.com/tremendus/adonis-restful-api#readme"
+}
