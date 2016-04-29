@@ -1,5 +1,5 @@
 {
-  "name": "adonis-resetful-api",
+  "name": "adonis-restful-api",
   "version": "0.0.1",
   "description": "General model-agnostic RESTful API controller for AdonisJS 3.0",
   "main": "index.js",
