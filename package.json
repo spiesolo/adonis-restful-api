@@ -1,6 +1,6 @@
 {
   "name": "adonis-restful-api",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "General model-agnostic RESTful API controller for AdonisJS 3.0",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/tremendus/adonis-restful-api/issues"
   },
-  "homepage": "https://github.com/tremendus/adonis-restful-api#readme"
+  "homepage": "https://github.com/tremendus/adonis-restful-api#readme",
+  "dependencies": {
+    "i": "^0.3.4"
+  }
 }

@@ -1,29 +1,23 @@
 'use strict'
 
-const models = {
-  credential: use('App/Model/Credential'),
-  device_class: use('App/Model/DeviceClass'),
-  device_definition: use('App/Model/DeviceDefinition'),
-  device_model: use('App/Model/DeviceModel'),
-  device: use('App/Model/Device'),
-  user: use('App/Model/User')
-}
+const inflect = require('i')()
 
-class ApiController {
+// class RestfulController {
+class RestfulController {
 
   // create - POST /api/:resource
   * store (request, response) {
-    const model = request.param('resource')
+    const model = this.resource(request.param('resource'))
     const data = request.input('model')
-    const result = yield models[model].create(data)
+    const result = yield model.create(data)
     // todo: better response? handleError
-    response.json(result[0])
+    response.json(result)
   }
 
   // readMany - GET /api/:resource
   * index (request, response) {
-    const model = request.param('resource')
-    const query = models[model].query()
+    const model = this.resource(request.param('resource'))
+    const query = model.query()
     const where = JSON.parse(request.input('query'))
     if (where) {
       query.where(where)
@@ -35,8 +29,9 @@ class ApiController {
   // query - POST /api/:resource/query
   * query (request, response) {
     console.log('query():request', request.params(), request.get())
-    const model = request.param('resource')
-    const query = models[model].query()
+
+    const model = this.resource(request.param('resource'))
+    const query = model.query()
 
     const where = request.input('where')
     console.log('query():where', where, typeof where)
@@ -76,28 +71,44 @@ class ApiController {
   // readOne - GET /api/:resource/:id
   * show (request, response) {
     console.log('show()', request.all())
-    const model = request.param('resource')
-    const result = yield models[model].find(request.param('id'))
+    const model = this.resource(request.param('resource'))
+    const query = model.query().where({ id: request.param('id') })
+    
+    const related = request.input('related')
+    console.log('show():related', related)
+    if (related) {
+      query.with(related)
+    }
+
+    const result = yield query.first()
+    console.log('show():result', result)
     response.json(result)
   }
 
   // update - PATCH /api/:resource/:id
   * update (request, response) {
-    const model = request.param('resource')
+    const model = this.resource(request.param('resource'))
     const data = request.input('model')
-    const instance = yield models[model].find(request.param('id'))
+    const instance = yield model.find(request.param('id'))
     const result = yield instance.update(data)
     response.json(result)
   }
 
   // delete - DELETE /api/:resource/:id
   * destroy (request, response) {
-    const model = request.param('resource')
-    const record = yield models[model].find(request.param('id'))
+    const model = this.resource(request.param('resource'))
+    const record = yield model.find(request.param('id'))
     const result = yield record.delete()
     response.json(result)
   }
 
+  // return model instance from :resource
+  resource (resource) {
+    const _model = 'App/Model/' + inflect.classify(resource)
+    const model = use(_model)
+    return model
+  }
 }
 
-module.exports = ApiController
+// module.exports = RestfulController
+module.exports = RestfulController
